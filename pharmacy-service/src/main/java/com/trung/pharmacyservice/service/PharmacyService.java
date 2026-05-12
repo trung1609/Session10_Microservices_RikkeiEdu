@@ -10,6 +10,7 @@ import io.github.resilience4j.timelimiter.TimeLimiterRegistry;
 import io.github.resilience4j.timelimiter.annotation.TimeLimiter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.cloud.context.scope.refresh.RefreshScopeRefreshedEvent;
 import org.springframework.context.event.EventListener;
@@ -26,7 +27,8 @@ public class PharmacyService {
     private final WarehouseClient warehouseClient;
     private final KafkaTemplate<String, Object> kafkaTemplate;
 
-    private static final String TOPIC = "medicine-stock-events";
+    @Value("${spring.kafka.template.default-topic}")
+    private String TOPIC;
 
     @CircuitBreaker(name = "warehouseCB", fallbackMethod = "checkStockFallback")
     public String processOrder(Long productId) {
