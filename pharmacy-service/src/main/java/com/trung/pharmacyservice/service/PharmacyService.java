@@ -1,6 +1,7 @@
 package com.trung.pharmacyservice.service;
 
 import com.trung.pharmacyservice.client.WarehouseClient;
+import com.trung.pharmacyservice.event.OrderEvent;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.ratelimiter.RequestNotPermitted;
 import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
@@ -12,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.cloud.context.scope.refresh.RefreshScopeRefreshedEvent;
 import org.springframework.context.event.EventListener;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.CompletableFuture;
@@ -22,6 +24,9 @@ import java.util.concurrent.CompletableFuture;
 @RefreshScope
 public class PharmacyService {
     private final WarehouseClient warehouseClient;
+    private final KafkaTemplate<String, Object> kafkaTemplate;
+
+    private static final String TOPIC = "medicine-stock-events";
 
     @CircuitBreaker(name = "warehouseCB", fallbackMethod = "checkStockFallback")
     public String processOrder(Long productId) {
@@ -66,5 +71,12 @@ public class PharmacyService {
     public CompletableFuture<String> checkInsuranceFallback(Throwable throwable){
         log.error("Validate insurance failed", throwable);
         return CompletableFuture.completedFuture("Validate insurance later.");
+    }
+
+    public void sendOrderEvent(OrderEvent orderEvent){
+        String messageKey = orderEvent.getMedicineId();
+
+        kafkaTemplate.send(TOPIC, messageKey, orderEvent);
+        log.info("Order event sent to Kafka topic: {} - Partition Key: {}", TOPIC, messageKey);
     }
 }

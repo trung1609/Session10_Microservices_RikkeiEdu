@@ -1,9 +1,14 @@
 package com.trung.pharmacyservice.controller;
 
+import com.trung.pharmacyservice.dto.SellRequest;
+import com.trung.pharmacyservice.event.OrderEvent;
 import com.trung.pharmacyservice.service.PharmacyService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 @RestController
@@ -25,5 +30,18 @@ public class PharmacyController {
     @GetMapping("/validate-insurance")
     public CompletableFuture<String> validateInsurance(){
         return pharmacyService.validateInsurance();
+    }
+
+    @PostMapping("/sell")
+    public ResponseEntity<String> sellMedicine(@RequestBody SellRequest request){
+        OrderEvent event = new OrderEvent(
+                UUID.randomUUID().toString(),
+                request.getMedicineId(),
+                request.getQuantity(),
+                LocalDateTime.now()
+        );
+
+        pharmacyService.sendOrderEvent(event);
+        return ResponseEntity.ok("Sell order processed successfully");
     }
 }
