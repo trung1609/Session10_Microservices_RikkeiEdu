@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CopilotDiffPersistence">
+    <option name="pendingDiffs">
+      <map>
+        <entry key="$PROJECT_DIR$/batch-service/build.gradle">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/batch-service/build.gradle" />
+              <option name="updatedContent" value="plugins {&#10;    id 'java'&#10;    id 'org.springframework.boot' version '4.0.6'&#10;    id 'io.spring.dependency-management' version '1.1.7'&#10;}&#10;&#10;group = 'com.trung'&#10;version = '0.0.1-SNAPSHOT'&#10;description = 'batch-service'&#10;&#10;java {&#10;    toolchain {&#10;        languageVersion = JavaLanguageVersion.of(17)&#10;    }&#10;}&#10;&#10;repositories {&#10;    mavenCentral()&#10;}&#10;&#10;ext {&#10;    set('springCloudVersion', &quot;2025.1.1&quot;)&#10;}&#10;&#10;dependencies {&#10;    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'&#10;    implementation 'org.springframework.boot:spring-boot-starter-webmvc'&#10;    implementation 'org.springframework.cloud:spring-cloud-starter-config'&#10;    implementation 'org.springframework.boot:spring-boot-starter-actuator'&#10;    implementation 'org.springframework.boot:spring-boot-starter-kafka'&#10;    testImplementation 'org.springframework.kafka:spring-kafka-test'&#10;    compileOnly 'org.projectlombok:lombok'&#10;    runtimeOnly 'org.postgresql:postgresql'&#10;    runtimeOnly 'com.h2database:h2'&#10;    annotationProcessor 'org.projectlombok:lombok'&#10;    testImplementation 'org.springframework.boot:spring-boot-starter-data-jpa-test'&#10;    testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'&#10;    testCompileOnly 'org.projectlombok:lombok'&#10;    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'&#10;    testAnnotationProcessor 'org.projectlombok:lombok'&#10;    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'&#10;}&#10;&#10;dependencyManagement {&#10;    imports {&#10;        mavenBom &quot;org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}&quot;&#10;    }&#10;}&#10;&#10;tasks.named('test') {&#10;    useJUnitPlatform()&#10;}&#10;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/batch-service/settings.gradle">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/batch-service/settings.gradle" />
+              <option name="updatedContent" value="rootProject.name = 'batch-service'&#10;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/batch-service/src/main/java/com/trung/batchservice/BatchServiceApplication.java">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/batch-service/src/main/java/com/trung/batchservice/BatchServiceApplication.java" />
+              <option name="updatedContent" value="package com.trung.batchservice;&#10;&#10;import org.springframework.boot.SpringApplication;&#10;import org.springframework.boot.autoconfigure.SpringBootApplication;&#10;import org.springframework.scheduling.annotation.EnableScheduling;&#10;&#10;@SpringBootApplication&#10;@EnableScheduling&#10;public class BatchServiceApplication {&#10;&#10;    public static void main(String[] args) {&#10;        SpringApplication.run(BatchServiceApplication.class, args);&#10;    }&#10;&#10;}&#10;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/batch-service/src/main/java/com/trung/batchservice/entity/Medicine.java">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/batch-service/src/main/java/com/trung/batchservice/entity/Medicine.java" />
+              <option name="updatedContent" value="package com.trung.batchservice.entity;&#10;&#10;import jakarta.persistence.*;&#10;import lombok.AllArgsConstructor;&#10;import lombok.Data;&#10;import lombok.NoArgsConstructor;&#10;import java.time.LocalDate;&#10;&#10;@Entity&#10;@Table(name = &quot;medicines&quot;)&#10;@Data&#10;@AllArgsConstructor&#10;@NoArgsConstructor&#10;public class Medicine {&#10;    @Id&#10;    @GeneratedValue(strategy = GenerationType.IDENTITY)&#10;    private Long id;&#10;    &#10;    private String medicineId;&#10;    private String medicineName;&#10;    private Integer quantity;&#10;    private LocalDate expiryDate;&#10;    private String status;  // AVAILABLE, EXPIRING_SOON, EXPIRED, NEED_IMPORT&#10;}&#10;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/batch-service/src/main/java/com/trung/batchservice/event/ExpirationWarningEvent.java">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/batch-service/src/main/java/com/trung/batchservice/event/ExpirationWarningEvent.java" />
+              <option name="updatedContent" value="package com.trung.batchservice.event;&#10;&#10;import lombok.AllArgsConstructor;&#10;import lombok.Data;&#10;import lombok.NoArgsConstructor;&#10;import java.time.LocalDateTime;&#10;import java.util.List;&#10;&#10;@Data&#10;@AllArgsConstructor&#10;@NoArgsConstructor&#10;public class ExpirationWarningEvent {&#10;    private String eventId;&#10;    private Long expiringMedicineCount;&#10;    private List&lt;MedicineInfo&gt; expiringMedicines;&#10;    private LocalDateTime timestamp;&#10;    private String message;&#10;&#10;    @Data&#10;    @AllArgsConstructor&#10;    @NoArgsConstructor&#10;    public static class MedicineInfo {&#10;        private String medicineId;&#10;        private String medicineName;&#10;        private Integer quantity;&#10;        private String expiryDate;&#10;    }&#10;}&#10;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/batch-service/src/main/java/com/trung/batchservice/repository/MedicineRepository.java">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/batch-service/src/main/java/com/trung/batchservice/repository/MedicineRepository.java" />
+              <option name="updatedContent" value="package com.trung.batchservice.repository;&#10;&#10;import com.trung.batchservice.entity.Medicine;&#10;import org.springframework.data.jpa.repository.JpaRepository;&#10;import org.springframework.data.jpa.repository.Query;&#10;import org.springframework.stereotype.Repository;&#10;import java.time.LocalDate;&#10;import java.util.List;&#10;&#10;@Repository&#10;public interface MedicineRepository extends JpaRepository&lt;Medicine, Long&gt; {&#10;    // Tìm các thuốc sắp hết hạn (trong 30 ngày tới)&#10;    @Query(&quot;SELECT m FROM Medicine m WHERE m.expiryDate BETWEEN CURRENT_DATE AND CURRENT_DATE + 30 AND m.status != 'EXPIRED'&quot;)&#10;    List&lt;Medicine&gt; findExpiringMedicines();&#10;    &#10;    // Tìm các thuốc đã hết hạn&#10;    @Query(&quot;SELECT m FROM Medicine m WHERE m.expiryDate &lt; CURRENT_DATE AND m.status != 'EXPIRED'&quot;)&#10;    List&lt;Medicine&gt; findExpiredMedicines();&#10;}&#10;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/batch-service/src/main/java/com/trung/batchservice/scheduler/ExpirationCheckScheduler.java">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/batch-service/src/main/java/com/trung/batchservice/scheduler/ExpirationCheckScheduler.java" />
+              <option name="updatedContent" value="package com.trung.batchservice.scheduler;&#10;&#10;import com.trung.batchservice.service.ExpirationBatchService;&#10;import lombok.RequiredArgsConstructor;&#10;import lombok.extern.slf4j.Slf4j;&#10;import org.springframework.scheduling.annotation.Scheduled;&#10;import org.springframework.stereotype.Component;&#10;&#10;@Component&#10;@Slf4j&#10;@RequiredArgsConstructor&#10;public class ExpirationCheckScheduler {&#10;    private final ExpirationBatchService expirationBatchService;&#10;&#10;    /**&#10;     * Scheduled task để kiểm tra thuốc sắp hết hạn&#10;     * Mặc định chạy mỗi 60 giây (60000 ms)&#10;     * Bạn có thể thay đổi thời gian trong application.yaml&#10;     */&#10;    @Scheduled(fixedRateString = &quot;${scheduling.expiration-check-interval:60000}&quot;, initialDelay = 10000)&#10;    public void scheduleExpirationCheck() {&#10;        try {&#10;            log.debug(&quot;⏱️ Bắt đầu scheduled task kiểm tra thuốc sắp hết hạn&quot;);&#10;            expirationBatchService.checkAndNotifyExpiringMedicines();&#10;        } catch (Exception e) {&#10;            log.error(&quot;❌ Lỗi trong scheduled task kiểm tra thuốc sắp hết hạn&quot;, e);&#10;        }&#10;    }&#10;}&#10;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/batch-service/src/main/resources/application.yaml">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/batch-service/src/main/resources/application.yaml" />
+              <option name="updatedContent" value="spring:&#10;  application:&#10;    name: batch-service&#10;  config:&#10;    import: &quot;optional:configserver:http://localhost:8888/&quot;&#10;  datasource:&#10;    url: jdbc:h2:mem:testdb&#10;    driverClassName: org.h2.Driver&#10;    username: sa&#10;    password:&#10;  jpa:&#10;    database-platform: org.hibernate.dialect.H2Dialect&#10;    hibernate:&#10;      ddl-auto: update&#10;  kafka:&#10;    bootstrap-servers: localhost:9092&#10;    producer:&#10;      acks: all&#10;      retries: 3&#10;      key-serializer: org.apache.kafka.common.serialization.StringSerializer&#10;      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer&#10;    consumer:&#10;      group-id: batch-service-group&#10;      auto-offset-reset: earliest&#10;      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer&#10;      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer&#10;      properties:&#10;        spring.json.trusted.packages: &quot;*&quot;&#10;&#10;server:&#10;  port: 8084&#10;&#10;# Lập lịch kiểm tra thuốc sắp hết hạn (mỗi 1 phút)&#10;scheduling:&#10;  expiration-check-interval: 60000  # 60 giây (hoặc 1 phút)&#10;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
