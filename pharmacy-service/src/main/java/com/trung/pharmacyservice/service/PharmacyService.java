@@ -75,6 +75,7 @@ public class PharmacyService {
         return CompletableFuture.completedFuture("Validate insurance later.");
     }
 
+
     public void sendOrderEvent(OrderEvent orderEvent){
         String messageKey = orderEvent.getMedicineId();
 
