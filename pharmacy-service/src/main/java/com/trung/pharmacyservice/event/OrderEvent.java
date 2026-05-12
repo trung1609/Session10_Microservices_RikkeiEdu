@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 public class OrderEvent {
     private String orderId;
     private String medicineId;
+    private String userEmail;
     private Integer quantity;
     private LocalDateTime timestamp;
 }

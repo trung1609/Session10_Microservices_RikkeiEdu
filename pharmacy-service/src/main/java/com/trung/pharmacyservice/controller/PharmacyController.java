@@ -37,6 +37,7 @@ public class PharmacyController {
         OrderEvent event = new OrderEvent(
                 UUID.randomUUID().toString(),
                 request.getMedicineId(),
+                request.getUserEmail(),
                 request.getQuantity(),
                 LocalDateTime.now()
         );
